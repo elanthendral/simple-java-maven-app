@@ -21,36 +21,10 @@ pipeline {
                 }
             }
         }
-        stage('Archive') {
-            steps {
-                archive 'target/*.jar'
-            }
-        }
         stage('Deliver') { 
             steps {
                 sh './jenkins/scripts/deliver.sh'
             }
-        }
-        stage('PostBuild') {
-            steps {
-                post {
-                      always {
-                        sh 'echo "Execution completed"'
-                      }
-                      success {
-                        sh 'echo "Build Success"'
-                      }
-                      failure {
-                        sh 'echo "Build Failed"'
-                      }
-                      unstable {
-                        sh 'echo "The project is unstable"'
-                      }
-                      changed {
-                        sh 'echo "The state of the Pipeline has changed"'
-                      }
-                }
-             }
         }
     }
 
