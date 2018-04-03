@@ -33,3 +33,23 @@ pipeline {
         }
     }
 }
+
+postBuild {
+  always {
+    sh 'echo "Execution completed"'
+  }
+  success {
+    sh 'echo "Build Success"'
+  }
+  failure {
+    sh 'echo "Build Failed"'
+  }
+  unstable {
+    sh 'echo "The project is unstable"'
+  }
+  changed {
+    sh 'echo "This will run only if the state of the Pipeline has changed"'
+    sh 'echo "For example, the Pipeline was previously failing but is now successful"'
+    sh 'echo "... or the other way around :)"'
+  }
+}
