@@ -32,7 +32,7 @@ pipeline {
             }
         }
     }
-    postBuild {
+    post {
       always {
         sh 'echo "Execution completed"'
       }
