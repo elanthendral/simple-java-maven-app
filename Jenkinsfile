@@ -32,23 +32,25 @@ pipeline {
             }
         }
         stage('PostBuild') {
-            post {
-                  always {
-                    sh 'echo "Execution completed"'
-                  }
-                  success {
-                    sh 'echo "Build Success"'
-                  }
-                  failure {
-                    sh 'echo "Build Failed"'
-                  }
-                  unstable {
-                    sh 'echo "The project is unstable"'
-                  }
-                  changed {
-                    sh 'echo "The state of the Pipeline has changed"'
-                  }
+            steps {
+                post {
+                      always {
+                        sh 'echo "Execution completed"'
+                      }
+                      success {
+                        sh 'echo "Build Success"'
+                      }
+                      failure {
+                        sh 'echo "Build Failed"'
+                      }
+                      unstable {
+                        sh 'echo "The project is unstable"'
+                      }
+                      changed {
+                        sh 'echo "The state of the Pipeline has changed"'
+                      }
                 }
+             }
         }
     }
 
