@@ -1,0 +1,272 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost/services
+  description: Generated server url
+tags:
+- name: Tags
+  description: API's related to Tags Service
+paths:
+  /tags/{id}:
+    put:
+      tags:
+      - Tags
+      summary: Update Tag
+      description: To update a tag
+      operationId: updateTag
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagRequest'
+        required: true
+      responses:
+        "204":
+          description: Successfully updated a tag
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+    delete:
+      tags:
+      - Tags
+      summary: Delete Tag
+      description: To delete a tag
+      operationId: deleteTag
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Successfully deleted a tag
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+  /tags/associations:
+    get:
+      tags:
+      - Tags
+      summary: Get Tag Associated entity details
+      description: Get list of Tags associated with given entities - with query params
+        - entityIds and type
+      operationId: getTagAssociation
+      parameters:
+      - name: entityIds
+        in: query
+        description: Includes entityIds as query param
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: type
+        in: query
+        description: Includes type as query param
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successfully fetched associated tags for the given entities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagAssociation'
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+    put:
+      tags:
+      - Tags
+      summary: Update Tag Association
+      description: To create or delete a tag associations for an entity(Users/Bundles)
+      operationId: updateTagAssociation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagAssociationRequest'
+        required: true
+      responses:
+        "204":
+          description: Successfully create or delete a tag
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+  /tags:
+    get:
+      tags:
+      - Tags
+      summary: Get Tags
+      description: Get list of Tags
+      operationId: getTags
+      responses:
+        "200":
+          description: Successfully fetched tags
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tags'
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+    post:
+      tags:
+      - Tags
+      summary: Create Tag
+      description: To create a new tag
+      operationId: createTag
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagRequest'
+        required: true
+      responses:
+        "201":
+          description: Successfully created a tag
+          content:
+            application/json:
+              schema:
+                type: object
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+  /tags/autocomplete:
+    get:
+      tags:
+      - Tags
+      summary: Get Autocomplete Suggesstions
+      description: View top 10 tag suggestions based on given input
+      operationId: getAutocompleteSuggestions
+      parameters:
+      - name: requestParams
+        description: Includes tag name as query param
+        required: true
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successfully retrieved tag list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tags'
+        "404":
+          description: The resource you were trying to reach is not found
+        "403":
+          description: Accessing the resource you were trying to reach is forbidden
+        "401":
+          description: You are not authorized to view the resource
+components:
+  schemas:
+    TagRequest:
+      required:
+      - colorCode
+      type: object
+      properties:
+        name:
+          type: string
+        colorCode:
+          type: string
+    TagAssociationRequest:
+      type: object
+      properties:
+        tagIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        entityId:
+          type: string
+        entityType:
+          type: string
+    Tags:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        colorCode:
+          type: string
+        createdTimestamp:
+          type: string
+          format: date-time
+        updatedTimestamp:
+          type: string
+          format: date-time
+        createdByName:
+          type: string
+        createdByUUID:
+          type: string
+        updatedByName:
+          type: string
+        updatedByUUID:
+          type: string
+        active:
+          type: boolean
+    TagAssociation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        tagId:
+          type: integer
+          format: int64
+        entityId:
+          type: string
+        entityType:
+          type: string
+        createdTimestamp:
+          type: string
+          format: date-time
+        createdByName:
+          type: string
+        createdByUUID:
+          type: string
